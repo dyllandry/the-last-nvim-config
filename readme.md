@@ -6,6 +6,12 @@ This is Dylan Landry's last vim config. It will:
 1. be forever maintained
 1. be heckin good
 
+## Todo
+
+- setup packer
+	- include code that handles if it is not installed
+	- Maybe somehow use pcall()
+
 ## Tips
 
 You can use `gO` (capital "o") to see an outline of a help file.
