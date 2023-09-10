@@ -8,9 +8,14 @@ This is Dylan Landry's last vim config. It will:
 
 ## Todo
 
-- setup packer
-	- include code that handles if it is not installed
-	- Maybe somehow use pcall()
+- setup tree sitter
+- setup fuzzy file finder
+- setup LSP stuff
+	- old config for reference
+	- easy way: mason and stuff
+	- harder way: manual
+	- test against with new vite project against VSCode
+- setup git fugitive
 
 ## Tips
 
