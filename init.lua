@@ -9,6 +9,11 @@ vim.o.number = true
 -- because they are relatively 1 line away from the current line.
 vim.o.relativenumber = true
 
+-- The "leader" is a key you can define and then use in keymaps like
+-- vim.keymap.set('n', '<leader>sf', builtin.find_files, {})
+-- I use the space key as a leader.
+vim.g.mapleader = ' '
+
 local install_lazy_plugin_manager = function(path_to_lazy)
 	vim.fn.system({
 		"git",
@@ -28,6 +33,9 @@ if not lazy_installed then
 end
 vim.opt.rtp:prepend(path_to_lazy)
 
+-- Its in lazy's setup function that you can specify what plugins you want and
+-- their configuration. You can also configure plugins in other directories,
+-- etc. Just checkout Lazy's readme.
 require("lazy").setup({
 	-- onedark is a color scheme.
 	{
@@ -83,4 +91,37 @@ require("lazy").setup({
 			})
 		end
 	},
+	-- Telescope is a fuzzy finder over any lists. Made of pickers,
+	-- sorters, and previewers, it can be user to fuzzy find files,
+	-- language server results, and more.
+	{
+		'nvim-telescope/telescope.nvim',
+		tag = '0.1.2',
+		dependencies = { 'nvim-lua/plenary.nvim' },
+		config = function()
+			require('telescope').setup{
+				defaults = {
+					mappings = {
+						i = {
+							-- This disables telescope's default
+							-- mapping for Ctrl-u in insert mode
+							-- from scrolling the preview window up.
+							-- Instead, it will clear the prompt.
+							["<C-u>"] = false
+						},
+					},
+					-- This will change the layout of
+					-- telescope so it fits well in skinny
+					-- windows.
+					layout_strategy = 'vertical',
+					layout_config = {
+						preview_cutoff = 22
+					}
+				}
+			}
+			local builtin = require('telescope.builtin')
+			vim.keymap.set('n', '<leader>sf', builtin.find_files, {})
+			vim.keymap.set('n', '<leader>sg', builtin.live_grep, {})
+		end
+	}
 })

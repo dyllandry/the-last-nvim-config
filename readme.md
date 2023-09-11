@@ -8,15 +8,14 @@ This is Dylan Landry's last vim config. It will:
 
 ## Todo
 
-- show tabs as 4 spaces instead of 8
-- plugin for detecting indent settings
-    - make sure it plays well with TS indent module. I'm not sure how those interact.
-- setup fuzzy file finder
 - setup LSP stuff
 	- old config for reference
 	- easy way: mason and stuff
 	- harder way: manual
 	- test against with new vite project against VSCode
+- show tabs as 4 spaces instead of 8
+- plugin for detecting indent settings
+    - make sure it plays well with TS indent module. I'm not sure how those interact.
 - setup git fugitive
 
 ## Tips
