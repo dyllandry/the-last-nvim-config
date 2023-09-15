@@ -14,6 +14,12 @@ vim.o.relativenumber = true
 -- I use the space key as a leader.
 vim.g.mapleader = ' '
 
+-- ignorecase and smartcase together will make searches done with "/"
+-- ignore case at first, unless you type a capital letter, in which
+-- the search will become case sensitive.
+vim.o.ignorecase = true
+vim.o.smartcase = true
+
 local install_lazy_plugin_manager = function(path_to_lazy)
 	vim.fn.system({
 		"git",
@@ -122,6 +128,69 @@ require("lazy").setup({
 			local builtin = require('telescope.builtin')
 			vim.keymap.set('n', '<leader>sf', builtin.find_files, {})
 			vim.keymap.set('n', '<leader>sg', builtin.live_grep, {})
+		end
+	},
+	-- nvim-lspconfig: Nvim supports the Language Server Protocol (LSP). If you have
+	-- language servers available on your computer, then Nvim can connect to them
+	-- and provide cool features like jumping to definition, renaming, etc. Nvim
+	-- has to be configured for each language server, which can be hard to configure
+	-- it correctly, so this plugin nvim-lspconfig provides some ready-to-go configs.
+	-- You can checkout `:help lspconfig-all` to see the list of configurations, and
+	-- installation instructions to get the respective language server on your computer.
+	{
+		'neovim/nvim-lspconfig',
+		config = function()
+			local lspconfig = require('lspconfig')
+			-- LSP for Vue 3
+			lspconfig.volar.setup {
+				-- Turns on 'Take Over Mode' so volar becomes the language
+				-- server for TypeScript files and can provide proper
+				-- support for .vue files imported into TypeScript files.
+				filetypes = {
+					'typescript',
+					'javascript',
+					'javascriptreact',
+					'typescriptreact',
+					'vue',
+					'json'
+				}
+			}
+
+			-- Below we register keymaps after Nvim attaches to a language server.
+			-- This autocmd will run whenever the LspAttach event fires.
+			vim.api.nvim_create_autocmd('LspAttach', {
+				-- Puts this autocmd in a group. Useful for organizing
+				-- and using the group name as an identifier to later
+				-- remove them. :help autocmd-groups
+				group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+				-- This is the event handler when the autocommand runs.
+				callback = function(ev)
+					-- The LspAttach event includes which buffer was attached.
+					-- We can use this buffer number when registering keymaps
+					-- to make the keymap only work in that buffer.
+					local options = { buffer = ev.buf }
+					vim.keymap.set('n', 'gd', vim.lsp.buf.definition, options)
+					vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts)
+					vim.keymap.set('n', 'K', vim.lsp.buf.hover, options)
+					vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, options)
+					-- References are anywhere a symbol appears. Shows a list of symbol
+					-- occurences informed by usage provided by the language server.
+					-- Upon navigating, puts the cursor on the occurence.
+					vim.keymap.set('n', 'gr', vim.lsp.buf.references, options)
+					-- The implementation is where a symbol is used.
+					-- If you do it on a base class, shows a list of derived classes.
+					-- If you do it on a type, shows a list of variables with that type.
+					-- Upon navigating, puts the cursor on the symbol which implements the original symbol.
+					vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, options)
+					vim.keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, options)
+					vim.keymap.set({ 'n', 'v' }, '<Leader>ca', vim.lsp.buf.code_action, options)
+					vim.keymap.set({ 'n' }, ']d', vim.diagnostic.goto_next, options)
+					vim.keymap.set({ 'n' }, '[d', vim.diagnostic.goto_prev, options)
+					vim.keymap.set('n', '<space>f', function()
+						vim.lsp.buf.format { async = true }
+					end, opts)
+				end,
+			})
 		end
 	}
 })
