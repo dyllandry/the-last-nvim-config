@@ -141,6 +141,10 @@ require("lazy").setup({
 		'neovim/nvim-lspconfig',
 		config = function()
 			local lspconfig = require('lspconfig')
+			-- nvim-cmp supports more LSP capabilities than omnifunc.
+			-- We will want to inform language servers of this.
+			local nvim_cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+
 			-- LSP for Vue 3
 			lspconfig.volar.setup {
 				-- Turns on 'Take Over Mode' so volar becomes the language
@@ -153,7 +157,8 @@ require("lazy").setup({
 					'typescriptreact',
 					'vue',
 					'json'
-				}
+				},
+				capabilities = nvim_cmp_capabilities
 			}
 
 			-- Below we register keymaps after Nvim attaches to a language server.
@@ -192,5 +197,62 @@ require("lazy").setup({
 				end,
 			})
 		end
+	},
+	-- Autocompletion plugin. It's the fancy window that automatically appears and as
+	-- you type and fills with suggestions. A replacement of vim's omnifunc manual
+	-- completion tool.
+	-- For it to work "completion sources" must be installed and "sourced". nvim-cmp
+	-- will handle the rest.
+	{
+		'hrsh7th/nvim-cmp',
+		dependencies = {
+			-- LSP source for nvim-cmp. Lets nvim-cmp work with the language server's
+			-- completion results.
+			'hrsh7th/cmp-nvim-lsp',
+		},
+		config = function()
+			local cmp = require('cmp')
+			cmp.setup {
+				-- TODO: setup snippets
+				-- snippet = {
+					-- expand = function(args)
+						-- luasnip.lsp_expand(args.body)
+					--	 end,
+				-- },
+				mapping = cmp.mapping.preset.insert({
+					['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
+					['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
+					['<C-Space>'] = cmp.mapping.complete(),
+					['<CR>'] = cmp.mapping.confirm {
+						behavior = cmp.ConfirmBehavior.Replace,
+						select = true,
+					},
+					['<Tab>'] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+				cmp.select_next_item()
+						elseif luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+						else
+				fallback()
+						end
+					end, { 'i', 's' }),
+					['<S-Tab>'] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+				cmp.select_prev_item()
+						elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
+						else
+				fallback()
+						end
+					end, { 'i', 's' }),
+				}),
+				sources = {
+					{ name = 'nvim_lsp' },
+					-- TODO: setup snippets
+					-- { name = 'luasnip' },
+				},
+			}
+		end
 	}
+
 })

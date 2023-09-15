@@ -8,9 +8,7 @@ This is Dylan Landry's last vim config. It will:
 
 ## Todo
 
-- setup LSP stuff
-  - briefly try out existing setup, check if need a completion window plugin like Coc/you-complete-me or whatever
-  - test against with new vite project against VSCode
+- setup signature help
 - lualine + lualine-lsp-progress
 - show tabs as 4 spaces instead of 8
 - plugin for detecting indent settings
@@ -81,3 +79,8 @@ Because not all language servers provide the same capabilities, you can first ch
 
 You can use nvim-lspconfig which provides ready-to-go configs for many langauge servers as well as installation instructions for how to get the actual language servers on your computer.
 
+### Autocompletion
+
+From [Autocompletion](https://github.com/neovim/nvim-lspconfig/wiki/Autocompletion) on the nvim-lspconfig wiki:
+
+>Neovim does not support built-in autocompletion. As mentioned in the readme, you can bind the completion results to omnifunc for on-demand completion. To use autocompletion, please use an external plugin. We recommend nvim-cmp.
