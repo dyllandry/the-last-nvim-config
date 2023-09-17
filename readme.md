@@ -14,6 +14,8 @@ This is Dylan Landry's last vim config. It will:
 - plugin for detecting indent settings
   - make sure it plays well with TS indent module. I'm not sure how those interact.
 - setup git fugitive
+- setup git gutter
+    - include hotkeys for jumping to next change
 
 ## Tips
 

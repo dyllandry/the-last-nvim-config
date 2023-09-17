@@ -51,6 +51,13 @@ require("lazy").setup({
 				style = 'warm'
 			}
 			require('onedark').load()
+			-- I found when writing parenthesis in comments
+			-- that when the matching paren was highlighted,
+			-- the foreground and background colors were the
+			-- same and the bracket would turn invisible.
+			-- This command sets the background color of the
+			-- matching parenthesis to a darker color.
+			vim.cmd('hi MatchParen guibg=#444444')
 		end
 	},
 	-- treesitter is a parsing system, it builds and updates syntax trees.
@@ -139,6 +146,9 @@ require("lazy").setup({
 	-- installation instructions to get the respective language server on your computer.
 	{
 		'neovim/nvim-lspconfig',
+		dependencies = {
+			'hrsh7th/cmp-nvim-lsp',
+		},
 		config = function()
 			local lspconfig = require('lspconfig')
 			-- nvim-cmp supports more LSP capabilities than omnifunc.
@@ -158,6 +168,15 @@ require("lazy").setup({
 					'vue',
 					'json'
 				},
+				capabilities = nvim_cmp_capabilities
+			}
+
+			-- Config for Markdown language server.
+			-- Big reason I want it is that in addition to regular markdown features like
+			-- linking between files `[link to yesterday's file](/yesterday.md)`, marksman
+			-- supports linking to specific headers in a file:
+			-- `[link to yesterday's file](/yesterday)`
+			lspconfig.marksman.setup {
 				capabilities = nvim_cmp_capabilities
 			}
 
@@ -194,6 +213,9 @@ require("lazy").setup({
 					vim.keymap.set('n', '<space>f', function()
 						vim.lsp.buf.format { async = true }
 					end, opts)
+
+					-- TODO: install, configure, test
+					-- require("lsp_signature").on_attach({}, ev.buf)
 				end,
 			})
 		end
@@ -209,20 +231,26 @@ require("lazy").setup({
 			-- LSP source for nvim-cmp. Lets nvim-cmp work with the language server's
 			-- completion results.
 			'hrsh7th/cmp-nvim-lsp',
+			-- nvim-cmp needs a snippet engine to work.
+			'L3MON4D3/LuaSnip',
+			-- This is the source for nvim-cmp to connect to luasnip
+			'saadparwaiz1/cmp_luasnip',
 		},
 		config = function()
 			local cmp = require('cmp')
+			local luasnip = require('luasnip')
+
 			cmp.setup {
-				-- TODO: setup snippets
-				-- snippet = {
-					-- expand = function(args)
-						-- luasnip.lsp_expand(args.body)
-					--	 end,
-				-- },
+				snippet = {
+					expand = function(args)
+						luasnip.lsp_expand(args.body)
+					end,
+				},
 				mapping = cmp.mapping.preset.insert({
 					['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
 					['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
 					['<C-Space>'] = cmp.mapping.complete(),
+					['<C-k>'] = cmp.mapping.close(),
 					['<CR>'] = cmp.mapping.confirm {
 						behavior = cmp.ConfirmBehavior.Replace,
 						select = true,
@@ -248,11 +276,9 @@ require("lazy").setup({
 				}),
 				sources = {
 					{ name = 'nvim_lsp' },
-					-- TODO: setup snippets
-					-- { name = 'luasnip' },
+					{ name = 'luasnip' },
 				},
 			}
 		end
-	}
-
+	},
 })
