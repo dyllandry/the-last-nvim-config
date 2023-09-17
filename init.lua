@@ -281,4 +281,6 @@ require("lazy").setup({
 			}
 		end
 	},
+	-- A plugin that provides a file manager window!
+	'preservim/nerdtree'
 })
