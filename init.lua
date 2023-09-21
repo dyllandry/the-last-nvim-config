@@ -168,6 +168,18 @@ require("lazy").setup({
 					'vue',
 					'json'
 				},
+				init_options = {
+					typescript = {
+						-- Some projects I use volar in that are js projects
+						-- don't have typescript as a dependency, so here
+						-- I point volar to use a globally installed typescript.
+						-- Should see if I can do node/**/bin in file path
+						-- so it can use any version. Or make a version that 
+						-- uses the current node version from nvm in the file path.
+						tsdk = '/Users/dylan/.nvm/versions/node/v19.6.1/lib/node_modules/typescript/lib'
+					}
+				},
+
 				capabilities = nvim_cmp_capabilities
 			}
 
