@@ -206,7 +206,7 @@ require("lazy").setup({
 					-- to make the keymap only work in that buffer.
 					local options = { buffer = ev.buf }
 					vim.keymap.set('n', 'gd', vim.lsp.buf.definition, options)
-					vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts)
+					vim.keymap.set('n', 'gD', vim.lsp.buf.type_definition, opts)
 					vim.keymap.set('n', 'K', vim.lsp.buf.hover, options)
 					vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, options)
 					-- References are anywhere a symbol appears. Shows a list of symbol
@@ -294,5 +294,10 @@ require("lazy").setup({
 		end
 	},
 	-- A plugin that provides a file manager window!
-	'preservim/nerdtree'
+	'preservim/nerdtree',
+	-- Git plugin that lets you manage git and view diffs in vim
+	'tpope/vim-fugitive',
+	-- Shows +/- in the sign column next to the line numbers
+	-- according to if those lines have been changed.
+	'airblade/vim-gitgutter'
 })
