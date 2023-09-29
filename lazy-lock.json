@@ -11,5 +11,6 @@
   "plenary.nvim": { "branch": "master", "commit": "0232372b906f275f76ac42029eba25eaf95e76b9" },
   "telescope.nvim": { "branch": "master", "commit": "776b509f80dd49d8205b9b0d94485568236d1192" },
   "vim-fugitive": { "branch": "master", "commit": "99db68d9b3304580bd383da7aaee05c7a954a344" },
-  "vim-gitgutter": { "branch": "main", "commit": "f7b97666ae36c7b3f262f3190dbcd7033845d985" }
+  "vim-gitgutter": { "branch": "main", "commit": "f7b97666ae36c7b3f262f3190dbcd7033845d985" },
+  "vim-sleuth": { "branch": "master", "commit": "1cc4557420f215d02c4d2645a748a816c220e99b" }
 }
