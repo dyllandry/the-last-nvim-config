@@ -20,6 +20,9 @@ vim.g.mapleader = ' '
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
+-- Show tabs in files as 4 spaces.
+vim.o.tabstop = 4
+
 local install_lazy_plugin_manager = function(path_to_lazy)
 	vim.fn.system({
 		"git",
@@ -315,6 +318,13 @@ require("lazy").setup({
 				[vim.fn.expand('~/dev/web-platform-server/.editorconfig')] = ''
 			}
 		end
+	},
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		-- opts is a table that gets passed to require("some_plugin").setup if config is not set
+		-- Could also do config = function() require("ibl").setup() end
+		opts = {},
 	}
 })
 
