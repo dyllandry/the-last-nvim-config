@@ -23,6 +23,15 @@ vim.o.smartcase = true
 -- Show tabs in files as 4 spaces.
 vim.o.tabstop = 4
 
+-- Dont break words in half when they reach the end of the line in files that
+-- are meant mostly for reading. Autocmds are pieces of code that are run
+-- whenever a specific event happens fo a specific filetype. In this case, it's
+-- if we enter a buffer (open a file) that's markdown, text, etc.
+vim.api.nvim_create_autocmd({"BufEnter"}, {
+	pattern = {"*.md", "*.txt."},
+	callback = function() vim.o.linebreak = true end
+})
+
 local install_lazy_plugin_manager = function(path_to_lazy)
 	vim.fn.system({
 		"git",
