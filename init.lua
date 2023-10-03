@@ -325,6 +325,16 @@ require("lazy").setup({
 		-- opts is a table that gets passed to require("some_plugin").setup if config is not set
 		-- Could also do config = function() require("ibl").setup() end
 		opts = {},
+	},
+	{
+		-- A plugin that provides mappings for doing stuff like
+		-- "Surround this word/visual-selection with square brackets".
+		"kylechui/nvim-surround",
+		-- When to load the plugin. VeryLazy is for loading after UI.
+		event = "VeryLazy",
+		config = function()
+			require("nvim-surround").setup()
+		end
 	}
 })
 
