@@ -167,6 +167,21 @@ require("lazy").setup({
 			-- We will want to inform language servers of this.
 			local nvim_cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+			-- Makes it so that if you have multiple LSPs reporting diagnostics, the virtual
+			-- text that appears on the buffer, and the floating window that shows when you
+			-- jump to a diagnostic, both show the source of the diagnostic.
+			-- This doesn't technically have to be done now, but diagnostics are provided by
+			-- LSPs, so it's pretty related to this section.
+			vim.diagnostic.config({
+				virtual_text = {
+					source = true
+				},
+				float = {
+					source = 'always'
+				}
+			})
+
+
 			-- LSP for Vue 3
 			lspconfig.volar.setup {
 				-- Turns on 'Take Over Mode' so volar becomes the language
@@ -194,6 +209,19 @@ require("lazy").setup({
 
 				capabilities = nvim_cmp_capabilities
 			}
+
+			-- Eslint is a linting engine for JS and TS.
+			-- This LSP shows it's issues as diagnostics, and provides a command for automatically fixing issues.
+			-- Would be cool on js/jsx/ts/tsx files on save to automatically run eslint then prettier.
+			lspconfig.eslint.setup({
+				-- on_attach = function(client, bufnr)
+				-- 	vim.api.nvim_create_autocmd("BufWritePre", {
+				-- 		buffer = bufnr,
+				-- 		command = "EslintFixAll",
+				-- 	})
+				-- end,
+				capabilities = nvim_cmp_capabilities
+			})
 
 			-- Config for Markdown language server.
 			-- Big reason I want it is that in addition to regular markdown features like
@@ -344,6 +372,11 @@ require("lazy").setup({
 		config = function()
 			require("nvim-surround").setup()
 		end
-	}
+	},
+	{
+		"folke/trouble.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {},
+	},
 })
 
