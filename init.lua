@@ -380,3 +380,17 @@ require("lazy").setup({
 	},
 })
 
+-- Notes on how I could get diagnostics from shellcheck bin to nvim:
+--------------------------------------------------------------------------------
+-- :help diagnostic.txt
+-- I need to
+-- 1) Register namespace on file open
+-- Not sure if I should register namespace on file open, for each file, or once
+-- at start of nvim
+-- 2) run shellcheck on buffer write
+-- Output using json format
+-- 3) shape output into diagnostics 
+-- 3.1) Use vim.json.decode() to turn json string into lua table.
+-- 3.2) Manipulate a little using lua, like removing colons from beginning of line number
+-- and column number strings.
+-- 4) Send to vim.diagnostic.set() input
