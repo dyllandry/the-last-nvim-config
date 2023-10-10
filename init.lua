@@ -81,6 +81,14 @@ require("lazy").setup({
 	-- parser's output.
 	{
 		"nvim-treesitter/nvim-treesitter",
+		dependencies = { 
+			-- nvim-ts-context-commentstring is a plugin that sets 'commentstring' depending
+			-- on where the cursor is and uses treesitter. Seems redundant with Comment.nvim,
+			-- but Comment.nvim itself didn't implement all the complicated logic for how to
+			-- properly comment embedded languages in typescript. However, this plugin,
+			-- nvim-ts-context-commentstring, did. I think the two plugins work together.
+			"JoosepAlviste/nvim-ts-context-commentstring"
+		},
 		-- Because each version of nvim-treesitter only works with specific
 		-- parser versions, each time we install or update nvim-treesitter,
 		-- we have to update all of our installed parsers.
@@ -113,6 +121,10 @@ require("lazy").setup({
 				-- Makes the = command indent the right number
 				-- of tabs/spaces.
 				indent = { enable = true },
+				-- To get nvim-treesitter working with nvim-ts-context-commentstring.
+				context_commentstring = {
+					enable = true,
+				},
 			})
 		end
 	},
@@ -377,6 +389,12 @@ require("lazy").setup({
 		"folke/trouble.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {},
+	},
+	-- Comment plugin that supports and works with treesitter.
+	{
+		"numToStr/Comment.nvim",
+		dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
+		opts = {}
 	},
 })
 
