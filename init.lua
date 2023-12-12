@@ -138,6 +138,7 @@ require("lazy").setup({
 		config = function()
 			require('telescope').setup{
 				defaults = {
+					file_ignore_patterns = { 'package%-lock%.json' },
 					mappings = {
 						i = {
 							-- This disables telescope's default
