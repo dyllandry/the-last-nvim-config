@@ -21,7 +21,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Show tabs in files as 4 spaces.
-vim.o.tabstop = 4
+-- vim.o.tabstop = 4
 
 -- Dont break words in half when they reach the end of the line in files that
 -- are meant mostly for reading. Autocmds are pieces of code that are run
@@ -356,13 +356,6 @@ require("lazy").setup({
 	-- A plugin that automatically sets indent related options for the
 	-- current file.
 	'tpope/vim-sleuth',
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		main = "ibl",
-		-- opts is a table that gets passed to require("some_plugin").setup if config is not set
-		-- Could also do config = function() require("ibl").setup() end
-		opts = {},
-	},
 	{
 		-- A plugin that provides mappings for doing stuff like
 		-- "Surround this word/visual-selection with square brackets".
