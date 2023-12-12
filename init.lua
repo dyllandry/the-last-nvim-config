@@ -355,20 +355,7 @@ require("lazy").setup({
 	'airblade/vim-gitgutter',
 	-- A plugin that automatically sets indent related options for the
 	-- current file.
-	{
-		'tpope/vim-sleuth',
-		config = function ()
-			-- Sleuth will pull tab settings from a .editorconfig
-			-- in nearby directories. This one in this project says
-			-- to use tabs, but you aren't supposed to use tabs in
-			-- yaml files, so it messes up yaml files in this
-			-- project. Disabled that .editorconfig file by setting
-			-- it's override to nothing.
-			vim.g['sleuth_editorconfig_overrides'] = {
-				[vim.fn.expand('~/dev/web-platform-server/.editorconfig')] = ''
-			}
-		end
-	},
+	'tpope/vim-sleuth',
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
