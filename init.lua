@@ -219,7 +219,23 @@ require("lazy").setup({
 						tsdk = '/Users/dylan/.nvm/versions/node/v19.6.1/lib/node_modules/typescript/lib'
 					}
 				},
-
+				-- Hides tsserver's specific diagnostic hint to convert commonjs modules to es6 modules.
+				-- https://www.reddit.com/r/neovim/comments/nv3qh8/comment/h1tx1rh/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+				handlers = {
+					["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
+						if result.diagnostics ~= nil then
+							local idx = 1
+							while idx <= #result.diagnostics do
+								if result.diagnostics[idx].code == 80001 then
+									table.remove(result.diagnostics, idx)
+								else
+									idx = idx + 1
+								end
+							end
+						end
+						vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
+					end,
+				},
 				capabilities = nvim_cmp_capabilities
 			}
 
