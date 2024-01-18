@@ -23,6 +23,8 @@ vim.o.smartcase = true
 -- Show tabs in files as 4 spaces.
 -- vim.o.tabstop = 4
 
+vim.o.scrolloff = 10
+
 -- Dont break words in half when they reach the end of the line in files that
 -- are meant mostly for reading. Autocmds are pieces of code that are run
 -- whenever a specific event happens fo a specific filetype. In this case, it's
@@ -363,7 +365,12 @@ require("lazy").setup({
 		end
 	},
 	-- A plugin that provides a file manager window!
-	'preservim/nerdtree',
+	{
+		'preservim/nerdtree',
+		config = function ()
+			vim.g.NERDTreeWinSize = 50
+		end
+	},
 	-- Git plugin that lets you manage git and view diffs in vim
 	'tpope/vim-fugitive',
 	-- Shows +/- in the sign column next to the line numbers
@@ -393,6 +400,9 @@ require("lazy").setup({
 		dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
 		opts = {}
 	},
+	-- Like vim fugitive but allows diffing between branches.
+	-- https://stackoverflow.com/a/75099935/7933478
+	'idanarye/vim-merginal',
 })
 
 -- Notes on how I could get diagnostics from shellcheck bin to nvim:
